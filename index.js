@@ -1,4 +1,5 @@
 const fs = require('fs');
+const url = require('url');
 const http = require('http');
 
 /////////////////////////////////////
@@ -29,7 +30,17 @@ const http = require('http');
 ///////SERVER
 const PORT = 8080;
 const server = http.createServer((req, res) => {
-  res.end('Hello from the server');
+  const pathName = req.url;
+  if (pathName === '/' || pathName === '/overview') {
+    res.end('Hello from the OVERVIEW');
+  } else if (pathName === '/product') {
+    res.end('Hello from the PRODUCT');
+  } else {
+    res.writeHead(404, {
+      'Content-type': 'text/html',
+    });
+    res.end('<h1>Page not found<h1/>');
+  }
 });
 
 server.listen(PORT, '127.0.0.1', () => {
